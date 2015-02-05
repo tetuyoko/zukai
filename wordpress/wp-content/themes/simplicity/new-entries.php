@@ -1,0 +1,25 @@
+<ul class="new-entrys">
+<?php global $g_entry_count; //グローバル変数の呼び出し?>
+<?php query_posts('posts_per_page='.$g_entry_count); //クエリの作成?>
+<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+<li class="new-entry">
+  <div class="new-entry-thumb">
+  <?php if ( has_post_thumbnail() ): // サムネイルを持っているときの処理 ?>
+    <a href="<?php the_permalink(); ?>" class="new-entry-image"><?php the_post_thumbnail( 'thumb100', array('style' => 'width:75px;height:75px;') ); ?></a>
+  <?php else: // サムネイルを持っていないときの処理 ?>
+    <a href="<?php the_permalink(); ?>" class="new-entry-image"><img src="<?php echo get_template_directory_uri(); ?>/images/no-image.png" alt="NO IMAGE" title="NO IMAGE" style="width:75px;height:75px;" class="no-image new-list-no-image" /></a>
+  <?php endif; ?>
+  </div><!-- /.new-entry-thumb -->
+
+  <div class="new-entry-content">
+    <a href="<?php the_permalink(); ?>" class="new-entry-title"><?php the_title();?></a>
+  </div><!-- /.new-entry-content -->
+
+</li><!-- /.new-entry -->
+<?php endwhile;
+else :
+  echo '<p>'.get_theme_text_not_found_message().'</p>';//記事は見つかりませんでした
+endif; ?>
+<?php wp_reset_query(); ?>
+</ul>
+<div class="clear"></div>
